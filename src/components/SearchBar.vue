@@ -77,6 +77,11 @@ export default {
     width: 40px;
 }
 
+.search-btn:hover{
+	cursor: pointer;
+	filter: brightness(95%);
+}
+
 .search-btn i {
     font-size: 20px;
 }
