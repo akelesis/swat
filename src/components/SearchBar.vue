@@ -2,7 +2,7 @@
   <section class="search-container">
       <div class="search-bar-group">
         <input type="text" v-model="search" class="seach-input" placeholder="Digite sua pesquisa">
-        <button class="search-btn"><i class="material-icons">search</i></button>
+        <button @click="redirectToResult" class="search-btn"><i class="material-icons">search</i></button>
       </div>
 
       <div class="filters-container">
@@ -32,6 +32,11 @@ export default {
         return {
             search: "",
             checked: ""
+        }
+    },
+    methods: {
+        redirectToResult() {
+            this.$router.push("/search-result")
         }
     }
 }
@@ -75,6 +80,11 @@ export default {
     border: 0;
     height: 35px;
     width: 40px;
+}
+
+.search-btn:hover{
+	cursor: pointer;
+	filter: brightness(95%);
 }
 
 .search-btn i {

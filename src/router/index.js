@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import DashboardTeacher from '../views/DashboardTeacher.vue'
+import DashboardCoordination from '../views/DashboardCoordination'
 
 Vue.use(VueRouter)
 
@@ -15,9 +16,6 @@ const routes = [
   {
     path: '/search-result',
     name: 'SearchResult',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/SearchResult')
   },
   {    
@@ -33,10 +31,12 @@ const routes = [
   {
     path: '/article-details',
     name: 'ArticleDetails',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/ArticleDetails')
+  },
+  {
+    path: '/dashboardcoordination',
+    name: 'DashboardCoordination',
+    component: DashboardCoordination
   }
 ]
 
