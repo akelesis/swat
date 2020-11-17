@@ -19,6 +19,20 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  
+}
+
+::-webkit-input-placeholder {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+:-moz-placeholder {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+::-moz-placeholder {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+:-ms-input-placeholder {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 
 #nav {
