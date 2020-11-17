@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-coordination">
 		<Header/>
+		<ReproveModal class="reproveModal" v-model="reproveModalOpen"></ReproveModal>
 		<section class="dashboard-coordination-first-section">
 			<h2>Trabalhos para análise:</h2>
 			<div class="first-section-results">
@@ -30,7 +31,7 @@
 			<textarea placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum libero ac nulla vehicula, vel iaculis diam tempor. Integer sodales luctus nibh quis molestie. Duis vitae magna elit. Fusce diam dolor, blandit a congue vel, ullamcorper vel metus. In eu vulputate massa, egestas iaculis dolor. Praesent eget consequat quam, vel sagittis felis. In hac habitasse platea dictumst. Aliquam imperdiet et dolor quis aliquet. Duis eget rhoncus velit. Phasellus quis venenatis sem. Suspendisse ac nibh sodales, rutrum orci nec, placerat erat. Integer in eros et tortor vulputate aliquam. Cras ut leo magna. Morbi condimentum leo venenatis, sodales nisi at, eleifend tellus."/>
 			<div class="dashboard-coordination-button-container">
 				<button class="approve">Aprovar</button>
-				<button class="reprove">Reprovar</button>
+				<button @click="openReproveModal" class="reprove">Reprovar</button>
 			</div>
 		</section>
   </div>
@@ -39,13 +40,25 @@
 <script>
 import Header from '../components/Header';
 import ResultCard from '../components/ResultCard';
+import ReproveModal from '../components/ReproveModal';
 export default {
 	name: "DashboardCoordination",
 	components: {
 		Header,
 		ResultCard,
+		ReproveModal,
 	},
-}
+	data() {
+		return {
+			reproveModalOpen: false,
+		};
+	},
+	methods: {
+		openReproveModal(){
+			this.reproveModalOpen = !this.reproveModalOpen;
+		}
+	}
+};
 </script>
 
 <style>
@@ -116,7 +129,7 @@ export default {
     outline: none;
 
 	width: 52vw;
-	margin-top: 20px;
+	margin-top: 25px;
     padding: 5px;
     font-size: 15px;
     color: #aaaaaa;
@@ -134,7 +147,7 @@ export default {
 .dashboard-coordination-middle-container{
 	display: flex;
 	justify-content: space-around;
-	margin: 45px 30px;
+	margin: 30px 30px 20px 30px;
 }
 
 .middle-img-container{
@@ -165,7 +178,7 @@ export default {
 
 .dashboard-coordination-second-section textarea{
 	width: 52vw;
-	height: 200px;
+	height: 210px;
 	margin: 0px 10px;
 	padding: 10px;
 }
@@ -178,7 +191,7 @@ export default {
 }
 
 .dashboard-coordination-button-container button{
-	margin: 0px 15px;
+	margin: 10px 15px;
 	width: 120px;
 	height: 30px;
 	border: 0;
@@ -198,5 +211,10 @@ export default {
 .dashboard-coordination-button-container .reprove{
 	background-color: #fff;
     color: #aaaaaa;
+}
+
+.reproveModal{
+	position: absolute;
+	z-index: 5;
 }
 </style>
