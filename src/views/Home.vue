@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <button class="login-btn">Login</button>
+    <button @click="redirectToLogin" class="login-btn">Login</button>
     <center class="content-group">
       <WelcomeLogo />
       <SearchBar />
@@ -38,7 +38,6 @@
 </style>
 
 <script>
-// @ is an alias to /src
 import WelcomeLogo from '../components/WelcomeLogo.vue';
 import SearchBar from '../components/SearchBar.vue';
 export default {
@@ -46,6 +45,11 @@ export default {
   components: {
     WelcomeLogo,
     SearchBar,
+  },
+  methods: {
+    redirectToLogin() {
+        this.$router.push("/login")
+    },
   }
 }
 </script>
