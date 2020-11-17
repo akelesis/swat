@@ -14,7 +14,7 @@
                         <p id="forgotten-password">esqueci a senha</p>
                     </div>
                 </div>
-                <button>Entrar</button>
+                <button @click="redirectPage">Entrar</button>
             </div>
       </section>
   </div>
@@ -23,6 +23,11 @@
 <script>
 export default {
     name: "Login",
+    methods: {
+        redirectPage() {
+            this.$router.push("/dashboardteacher")
+        }
+    }
 
 }
 </script>

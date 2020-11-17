@@ -7,13 +7,17 @@
           <p>Titulo: Metodologias avançadissimas em sistemas esp...</p>
           <p>Autor: S. Giacomin, Paulo</p>
           <p>Ano: 2015</p>
-          <p>Ano: Tecnologia da Informação</p>
+          <div class="card-row">
+            <p>Ano: Tecnologia da Informação</p>
+            <p v-if="status">Status: <span :class="status">{{status}}</span></p>
+          </div>
       </div>
   </section>
 </template>
 
 <script>
 export default {
+    props: ['status'],
     methods: {
         redirectPage() {
             this.$router.push("/article-details")
@@ -39,5 +43,14 @@ export default {
     color: #a7a7a7;
     text-align: start;
     margin-left: 10px;
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.aceito {
+    color: #72C183;
 }
 </style>
