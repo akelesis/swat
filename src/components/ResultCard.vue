@@ -1,5 +1,5 @@
 <template>
-  <section class="result-card">
+  <section @click="redirectPage" class="result-card">
       <div class="img-container">
           <img src="https://via.placeholder.com/135x85/FFFFFF/C1C1C1/?text=NO_IMAGE" alt="">
       </div>
@@ -14,7 +14,11 @@
 
 <script>
 export default {
-    
+    methods: {
+        redirectPage() {
+            this.$router.push("/article-details")
+        }
+    }
 }
 </script>
 
@@ -28,6 +32,7 @@ export default {
     background-color: #eeeeee;
     padding: 10px;
     box-shadow: 0px 2px 4px #0004;
+    cursor: pointer;
 }
 
 .description-container {
