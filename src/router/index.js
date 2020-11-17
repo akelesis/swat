@@ -20,7 +20,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/SearchResult')
   },
-  {
+  {    
     path: '/login',
     name: 'Login',
     component: Login
@@ -29,6 +29,14 @@ const routes = [
     path: '/dashboardteacher',
     name: 'DashboardTeacher',
     component: DashboardTeacher
+  },
+  {
+    path: '/article-details',
+    name: 'ArticleDetails',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/ArticleDetails')
   }
 ]
 
