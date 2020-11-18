@@ -36,3 +36,9 @@ npm run lint
         - router :: possui arquivo de configuração de rotas do frontend
         - store  :: possui arquivo de configuração de estados da aplicação
         - views :: páginas que compõem a aplicação
+
+## Ferramentas
+    - Visual Studio Code
+    - VueJs
+    - Git / Github
+    - Discord
