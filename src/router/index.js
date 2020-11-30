@@ -37,6 +37,11 @@ const routes = [
     path: '/dashboardcoordination',
     name: 'DashboardCoordination',
     component: DashboardCoordination
+  },
+  {
+    path: '/professor-register',
+    name: 'ProfessorRegister',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ProfessorRegister')
   }
 ]
 
