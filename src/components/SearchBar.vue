@@ -27,16 +27,36 @@
 </template>
 
 <script>
+import axios from "axios"
+import baseURL from "../global"
+
 export default {
     data() {
         return {
             search: "",
-            checked: ""
+            checked: "",
+            options: {
+                author: "/searchAuthor/",
+                title: "/searchTitle/",
+                year: "/searchYear/",
+                area: "/searchArea/"
+            },
+            result: []
         }
     },
     methods: {
-        redirectToResult() {
-            this.$router.push("/search-result")
+        async redirectToResult() {
+            try {
+                this.result = await axios.get(baseURL + this.options[this.checked] + this.search)
+                    .then(res => res.data)
+
+                this.$store.commit("setSearchResult", this.result)
+                this.$router.push("/search-result")
+            }
+            catch(err) {
+                console.log(err)
+            }
+                
         }
     }
 }

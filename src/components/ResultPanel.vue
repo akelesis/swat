@@ -1,6 +1,6 @@
 <template>
   <section class="result-panel">
-      <ResultCard v-for="card in cards" :key="card" />
+      <ResultCard v-for="result in results" :key="result.tcc_id" :tcc="result" />
   </section>
 </template>
 
@@ -12,8 +12,21 @@ export default {
     },
     data() {
         return {
-            cards:[0, 1, 2, 3, 4]
+            
         }
+    },
+    methods: {
+        printResults() {
+            console.log(this.results)
+        }
+    },
+    computed: {
+        results() {
+            return this.$store.state.searchResult
+        }
+    },
+    mounted() {
+        this.printResults();
     }
 }
 </script>

@@ -1,14 +1,15 @@
 <template>
   <section @click="redirectPage" class="result-card">
       <div class="img-container">
-          <img src="https://via.placeholder.com/135x85/FFFFFF/C1C1C1/?text=NO_IMAGE" alt="">
+          <img v-if="!tcc.tcc_cover_url" src="https://via.placeholder.com/135x85/FFFFFF/C1C1C1/?text=NO_IMAGE" alt="">
+          <img v-if="tcc.tcc_cover_url" :src="tcc.tcc_cover_url" alt="">
       </div>
       <div class="description-container">
-          <p>Titulo: Metodologias avançadissimas em sistemas esp...</p>
-          <p>Autor: S. Giacomin, Paulo</p>
-          <p>Ano: 2015</p>
+          <p>Titulo: {{tcc.tcc_title}}</p>
+          <p>Autor: {{tcc.tcc_author}}</p>
+          <p>Ano: {{tcc.tcc_year}}</p>
           <div class="card-row">
-            <p>Ano: Tecnologia da Informação</p>
+            <p>Area: {{tcc.tcc_area}}</p>
             <p v-if="status">Status: <span :class="status">{{status}}</span></p>
           </div>
       </div>
@@ -17,9 +18,10 @@
 
 <script>
 export default {
-    props: ['status'],
+    props: ['status', 'tcc'],
     methods: {
         redirectPage() {
+            this.$store.commit("setSelected", this.tcc)
             this.$router.push("/article-details")
         }
     }
