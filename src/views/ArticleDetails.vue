@@ -40,6 +40,12 @@
           disabled
         />
       </div>
+      <div class="download-button">
+        <span class="material-icons" @click="downloadDocument">
+          get_app
+        </span>
+        <span class="span-title">Download</span>
+      </div>
       <textarea
         name=""
         id="article-description"
@@ -64,6 +70,9 @@ export default {
     };
   },
   methods: {
+    downloadDocument() {
+      window.location.href = this.tcc.tcc_url
+    },
     returnPage() {
       this.$router.push("/search-result");
     },
@@ -148,6 +157,23 @@ export default {
   width: 40%;
   padding-left: 10px;
   color: #aaaaaa;
+}
+
+.download-button {
+  display:flex;
+  flex-direction: column;
+  color: #fff;
+  background-color: #aaa;
+  width: 78px;
+  height: 78px;
+  justify-content: center;
+  font-size: 15px;
+  transition: .2s;
+}
+
+.download-button:hover {
+  cursor: pointer;
+  filter: brightness(90%);
 }
 
 #article-description {
