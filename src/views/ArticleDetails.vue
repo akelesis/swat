@@ -8,7 +8,7 @@
         <input
           type="text"
           class="name-input-details"
-          v-model="article.title"
+          v-model="tcc.tcc_title"
           disabled
         />
       </div>
@@ -16,13 +16,13 @@
         <input
           type="text"
           class="input-details"
-          v-model="article.author"
+          v-model="tcc.tcc_author"
           disabled
         />
         <input
           type="text"
           class="input-details"
-          v-model="article.orientador"
+          v-model="professor.teacher_name"
           disabled
         />
       </div>
@@ -30,20 +30,26 @@
         <input
           type="text"
           class="input-details"
-          v-model="article.area"
+          v-model="tcc.tcc_area"
           disabled
         />
         <input
           type="text"
           class="input-details"
-          v-model="article.grau"
+          v-model="tcc.tcc_specialization"
           disabled
         />
+      </div>
+      <div class="download-button">
+        <span class="material-icons" @click="downloadDocument">
+          get_app
+        </span>
+        <span class="span-title">Download</span>
       </div>
       <textarea
         name=""
         id="article-description"
-        v-model="article.description"
+        v-model="tcc.tcc_comments"
         cols="30"
         rows="10"
         disabled
@@ -54,25 +60,41 @@
 </template>
 
 <script>
+import axios from "axios"
+import baseURL from "../global"
+
 export default {
   data() {
     return {
-      article: {
-        title: "Metodologias avançadissimas em sistemas especialistas",
-        author: "S. Giacomin, Paulo",
-        orientador: "C. Almeida, Helder",
-        area: "Tecnologia da Informação",
-        grau: "Doutorado",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque omnis nam debitis inventore maiores! Laudantium modi ipsam unde, accusantium id quam alias laboriosam velit ex nisi sequi quisquam. Totam, at.",
-      },
+      professor: {}
     };
   },
   methods: {
-      returnPage() {
-          this.$router.push("/search-result")
+    downloadDocument() {
+      window.location.href = this.tcc.tcc_url
+    },
+    returnPage() {
+      this.$router.push("/search-result");
+    },
+    async getProfessor() {
+      try{      
+        this.professor = await axios.get(baseURL + "/teacher/" + this.tcc.teacher_id)
+          .then(res => res.data)
       }
+      catch(err) {
+        console.log(err)
+      }
+
+    }
   },
+  computed: {
+    tcc() {
+      return this.$store.state.selected
+    }
+  },
+  mounted(){
+    this.getProfessor()
+  }
 };
 </script>
 
@@ -135,6 +157,23 @@ export default {
   width: 40%;
   padding-left: 10px;
   color: #aaaaaa;
+}
+
+.download-button {
+  display:flex;
+  flex-direction: column;
+  color: #fff;
+  background-color: #aaa;
+  width: 78px;
+  height: 78px;
+  justify-content: center;
+  font-size: 15px;
+  transition: .2s;
+}
+
+.download-button:hover {
+  cursor: pointer;
+  filter: brightness(90%);
 }
 
 #article-description {

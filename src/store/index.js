@@ -6,7 +6,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: {}
+    user: {},
+    searchResult: [],
+    selected: {}
   },
   mutations: {
     setUser(state, user){
@@ -20,6 +22,12 @@ export default new Vuex.Store({
       else{
           delete axios.defaults.headers.common['Authorization']
       }
+    },
+    setSearchResult(state, result) {
+      state.searchResult = result;
+    },
+    setSelected(state, selected) {
+      state.selected = selected
     }
   },
   actions: {
