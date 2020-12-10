@@ -1,23 +1,24 @@
 <template>
   <div class="dashboard-teacher">
-    <Header />
     <section class="dashboard-teacher-first-section">
       <h2>Envio de trabalhos</h2>
-      <input type="text" placeholder="Título do trabalho" name="" id="" />
+      <input type="text" v-model="title" placeholder="Título do trabalho" name="" id="" />
       <div class="dashboard-teacher-input-container">
-        <input type="text" placeholder="Autor(a)" name="" id="" />
-        <input type="text" placeholder="Orientador(a)" name="" id="" />
-      </div>
-      <div class="dashboard-teacher-input-container">
-        <select name="" id="">
-          <option value="">Área relacionada</option>
-        </select>
-        <select name="" id="">
-          <option value="">Selecione o grau de especialização</option>
+        <input type="text" v-model="autor" placeholder="Autor(a)" name="" id="" />
+        <select name="" id="" v-model="teacher">
+          <option value="" selected="true" disabled="disabled">Orientador(a)</option>
         </select>
       </div>
       <div class="dashboard-teacher-input-container">
-        <input type="file" id="image-file-input" accept="image/jpg, image/png" />
+        <select name="" id="" v-model="area">
+          <option value="" selected="true" disabled="disabled">Área relacionada</option>
+        </select>
+        <select name="" id="" v-model="specialization">
+          <option value="" selected="true" disabled="disabled">Selecione o grau de especialização</option>
+        </select>
+      </div>
+      <div class="dashboard-teacher-input-container">
+        <input type="file" id="image-file-input"  accept="image/jpg, image/png" />
         <input type="file" id="archive-file-input" accept="application/pdf" />
       </div>
       <textarea
@@ -26,9 +27,10 @@
         id=""
         cols="30"
         rows="10"
+        v-model="comments"
       ></textarea>
       <div class="dashboard-teacher-button-container">
-        <button class="send">Enviar</button>
+        <button class="send" @click="sendWork()">Enviar</button>
         <button class="cancel">Cancelar</button>
       </div>
     </section>
@@ -37,8 +39,8 @@
         <h2>Últimos trabalhos enviados</h2>
         <div class="cards-container">
           <ResultCard status="aceito" />
-          <ResultCard />
-          <ResultCard />
+          <ResultCard status="recusado" />
+          <ResultCard status="pendente" />
         </div>
       </div>
       <div class="see-all"><p>Ver todos...</p></div>
@@ -47,15 +49,43 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
 import ResultCard from "../components/ResultCard.vue";
+import axios from 'axios'
 
 export default {
   name: "DashboardTeacher",
   components: {
-    Header,
     ResultCard,
   },
+  data() {
+    return {
+      work: {},
+      title: '',
+      autor: '',
+      teacher: '',
+      area: '',
+      specialization: '',
+      comments: ''
+    }
+  },
+  methods: {
+    sendWork() {
+      this.work.tcc_title = this.title
+      this.work.tcc_author = this.autor
+      this.work.teacher_id = this.teacher
+      this.work.tcc_area = this.area
+      this.work.tcc_specialization = this.specialization
+      this.work.tcc_comments = this.abstract
+
+      axios.post('http://localhost:5000/tcc', this.work)
+    },
+    getTeacher() {
+
+    }
+  },
+  mounted () {
+    this.getTeacher()
+  }
 };
 </script>
 
