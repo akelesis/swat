@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard-coordination">
-		<Header/>
 		<ReproveModal class="reproveModal" v-model="reproveModalOpen"></ReproveModal>
 		<section class="dashboard-coordination-first-section">
 			<h2>Trabalhos para análise:</h2>
@@ -38,13 +37,11 @@
 </template>
 
 <script>
-import Header from '../components/Header';
 import ResultCard from '../components/ResultCard';
 import ReproveModal from '../components/ReproveModal';
 export default {
 	name: "DashboardCoordination",
 	components: {
-		Header,
 		ResultCard,
 		ReproveModal,
 	},

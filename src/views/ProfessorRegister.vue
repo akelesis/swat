@@ -1,6 +1,5 @@
 <template>
   <div class="professor-register">
-    <Header class="header" />
     <div class="register-form-container">
       <h1>Cadastro de Professor</h1>
 
@@ -58,10 +57,8 @@
 <script>
 import axios from "axios"
 
-import Header from "../components/Header";
 export default {
   components: {
-    Header,
   },
   data() {
     return {
