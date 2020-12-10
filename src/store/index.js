@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     user: {},
     searchResult: [],
-    selected: {}
+    selected: {},
+    logged: false,
   },
   mutations: {
     setUser(state, user){

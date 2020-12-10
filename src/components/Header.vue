@@ -1,5 +1,5 @@
 <template>
-  <div class="Header">
+  <div class="Header" v-if="logged">
     <div>
       <i class="material-icons expand">expand_more</i>
       <p>Bom dia, Helder!</p>
@@ -11,6 +11,11 @@
 <script>
 export default {
     name: 'Header',
+    computed: {
+      logged(){
+        return this.$store.state.logged;
+      }
+    }
 }
 </script>
 

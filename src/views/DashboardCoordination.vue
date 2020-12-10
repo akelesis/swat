@@ -4,22 +4,19 @@
 		<section class="dashboard-coordination-first-section">
 			<h2>Trabalhos para análise:</h2>
 			<div class="first-section-results">
-				<ResultCard />
-				<ResultCard />
-				<ResultCard />
-				<ResultCard />
+				<ResultCard @click.native="getTCC(result)" v-for="result in results" :key="result.tcc_id" :tcc="result" :status="result.tcc_status" />
 			</div>
 		</section>
 		<section class="dashboard-coordination-second-section">
 			<h2>Detalhes do trabalho</h2>
-			<input type="text" placeholder="Metodologias Avançadíssimas em sistemas especialistas">
+			<input v-model="curTCC.tcc_title" type="text" placeholder="Títuto do TCC" disabled>
 			<div class="dashboard-coordination-input">
-				<input type="text" placeholder="S. Giacomin, Paulo">
-				<input type="text" placeholder="C Almeida, Helder">
+				<input v-model="curTCC.tcc_author" type="text" placeholder="Autor do TCC" disabled>
+				<input v-model="curTeacher.teacher_name" type="text" placeholder="Orientador" disabled>
 			</div>
 			<div class="dashboard-coordination-input">
-				<input type="text" placeholder="Tecnologia da Informação">
-				<input type="text" placeholder="Doutorado">
+				<input v-model="curTCC.tcc_area" type="text" placeholder="Departamento" disabled>
+				<input v-model="curTCC.tcc_specialization" type="text" placeholder="Grau de especialização" disabled>
 			</div>
 			<div class="dashboard-coordination-middle-container">
 				<div class="middle-img-container">
@@ -27,7 +24,7 @@
 				</div>
 				<button><i class="material-icons">download</i>Download</button>
 			</div>
-			<textarea class="textarea" disabled placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum libero ac nulla vehicula, vel iaculis diam tempor. Integer sodales luctus nibh quis molestie. Duis vitae magna elit. Fusce diam dolor, blandit a congue vel, ullamcorper vel metus. In eu vulputate massa, egestas iaculis dolor. Praesent eget consequat quam, vel sagittis felis. In hac habitasse platea dictumst. Aliquam imperdiet et dolor quis aliquet. Duis eget rhoncus velit. Phasellus quis venenatis sem. Suspendisse ac nibh sodales, rutrum orci nec, placerat erat. Integer in eros et tortor vulputate aliquam. Cras ut leo magna. Morbi condimentum leo venenatis, sodales nisi at, eleifend tellus."/>
+			<textarea v-model="curTCC.tcc_summary" class="textarea" disabled placeholder="Resumo do TCC"/>
 			<div class="dashboard-coordination-button-container">
 				<button class="approve">Aprovar</button>
 				<button @click="openReproveModal" class="reprove">Reprovar</button>
@@ -39,6 +36,9 @@
 <script>
 import ResultCard from '../components/ResultCard';
 import ReproveModal from '../components/ReproveModal';
+import axios from "axios";
+import baseURL from "../global";
+
 export default {
 	name: "DashboardCoordination",
 	components: {
@@ -48,12 +48,29 @@ export default {
 	data() {
 		return {
 			reproveModalOpen: false,
+			curTCC: {},
+			curTeacher: {},
+			results: [],
 		};
 	},
 	methods: {
 		openReproveModal(){
 			this.reproveModalOpen = !this.reproveModalOpen;
+		},
+		async getTCC(result){
+			this.curTCC = result;
+			const response = await axios.get(baseURL + `/teacher/${this.curTCC.teacher_id}`).then(res => res.data);
+			this.curTeacher = response;
+		},
+		async getResultCards(){
+			const response = await axios.get(baseURL + '/tcc').then(res => res.data);
+			this.results = response.filter(res => res.tcc_status == "pendente");
+			
+			console.log(response);
 		}
+	},
+	mounted(){
+		this.getResultCards();
 	}
 };
 </script>

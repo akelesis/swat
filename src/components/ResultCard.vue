@@ -21,8 +21,10 @@ export default {
     props: ['status', 'tcc'],
     methods: {
         redirectPage() {
-            this.$store.commit("setSelected", this.tcc)
-            this.$router.push("/article-details")
+            if (this.status == "aprovado"){
+                this.$store.commit("setSelected", this.tcc)
+                this.$router.push("/article-details")
+            }
         }
     }
 }
@@ -39,6 +41,10 @@ export default {
     padding: 10px;
     box-shadow: 0px 2px 4px #0004;
     cursor: pointer;
+}
+
+.img-container img{
+    width: 140px;
 }
 
 .description-container {
