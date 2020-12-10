@@ -2,7 +2,7 @@
     <div class="modal" v-show="value">
         <div class="content">
             <h2>Motivação para contestação de trabalho</h2>
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <textarea name="" id="" class="textarea" cols="30" rows="10"></textarea>
             <div class="button-container">
                 <button class="btn-enviar">Enviar</button>
                 <button @click="close" class="btn-cancelar">Cancelar</button>
