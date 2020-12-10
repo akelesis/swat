@@ -27,7 +27,7 @@
 				</div>
 				<button><i class="material-icons">download</i>Download</button>
 			</div>
-			<textarea class="textarea" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum libero ac nulla vehicula, vel iaculis diam tempor. Integer sodales luctus nibh quis molestie. Duis vitae magna elit. Fusce diam dolor, blandit a congue vel, ullamcorper vel metus. In eu vulputate massa, egestas iaculis dolor. Praesent eget consequat quam, vel sagittis felis. In hac habitasse platea dictumst. Aliquam imperdiet et dolor quis aliquet. Duis eget rhoncus velit. Phasellus quis venenatis sem. Suspendisse ac nibh sodales, rutrum orci nec, placerat erat. Integer in eros et tortor vulputate aliquam. Cras ut leo magna. Morbi condimentum leo venenatis, sodales nisi at, eleifend tellus."/>
+			<textarea class="textarea" disabled placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum libero ac nulla vehicula, vel iaculis diam tempor. Integer sodales luctus nibh quis molestie. Duis vitae magna elit. Fusce diam dolor, blandit a congue vel, ullamcorper vel metus. In eu vulputate massa, egestas iaculis dolor. Praesent eget consequat quam, vel sagittis felis. In hac habitasse platea dictumst. Aliquam imperdiet et dolor quis aliquet. Duis eget rhoncus velit. Phasellus quis venenatis sem. Suspendisse ac nibh sodales, rutrum orci nec, placerat erat. Integer in eros et tortor vulputate aliquam. Cras ut leo magna. Morbi condimentum leo venenatis, sodales nisi at, eleifend tellus."/>
 			<div class="dashboard-coordination-button-container">
 				<button class="approve">Aprovar</button>
 				<button @click="openReproveModal" class="reprove">Reprovar</button>

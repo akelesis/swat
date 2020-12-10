@@ -6,20 +6,34 @@
       <div class="dashboard-teacher-input-container">
         <input type="text" v-model="autor" placeholder="Autor(a)" name="" id="" />
         <select name="" id="" v-model="teacher">
-          <option value="" selected="true" disabled="disabled">Orientador(a)</option>
+          <option value="" selected="true" disabled="disabled">Escolha o professor</option>
+          <option 
+            :value="value.teacher_id" 
+            :id="value.teacher_id" 
+            v-for="value in teachers" :key="value.teacher_id">
+            {{ value.teacher_name }}
+          </option>
         </select>
       </div>
       <div class="dashboard-teacher-input-container">
         <select name="" id="" v-model="area">
           <option value="" selected="true" disabled="disabled">Área relacionada</option>
+          <option>Humanas</option>
+          <option>Exatas</option>
+          <option>Tecnologia</option>
+          <option>Biológicas</option>
         </select>
         <select name="" id="" v-model="specialization">
           <option value="" selected="true" disabled="disabled">Selecione o grau de especialização</option>
+          <option>Licenciatura</option>
+          <option>Bacharelado</option>
+          <option>Mestrado</option>
+          <option>Doutorado</option>
         </select>
       </div>
       <div class="dashboard-teacher-input-container">
-        <input type="file" id="image-file-input"  accept="image/jpg, image/png" />
-        <input type="file" id="archive-file-input" accept="application/pdf" />
+        <input type="file" id="image-file-input" @change="getCover" accept="image/jpg, image/png" />
+        <input type="file" id="archive-file-input" @change="getTcc" accept="application/pdf" />
       </div>
       <textarea
         name=""
@@ -30,7 +44,7 @@
         v-model="comments"
       ></textarea>
       <div class="dashboard-teacher-button-container">
-        <button class="send" @click="sendWork()">Enviar</button>
+        <button class="send" @click="sendWork">Enviar</button>
         <button class="cancel">Cancelar</button>
       </div>
     </section>
@@ -63,6 +77,7 @@ export default {
       title: '',
       autor: '',
       teacher: '',
+      teachers: [],
       area: '',
       specialization: '',
       comments: ''
@@ -70,17 +85,45 @@ export default {
   },
   methods: {
     sendWork() {
+      let ano = new Date()
+
+      ano = ano.getFullYear()
+
       this.work.tcc_title = this.title
       this.work.tcc_author = this.autor
       this.work.teacher_id = this.teacher
+      this.work.tcc_year = ano
       this.work.tcc_area = this.area
+      this.work.tcc_status = "pendente"
       this.work.tcc_specialization = this.specialization
-      this.work.tcc_comments = this.abstract
+      this.work.tcc_comments = this.comments
 
-      axios.post('http://localhost:5000/tcc', this.work)
+      const fd = new FormData()
+        
+      fd.append("tcc_title", this.work.tcc_title);
+      fd.append("tcc_author", this.work.tcc_author)
+      fd.append("teacher_id", this.work.teacher_id)
+      fd.append("tcc_year", this.work.tcc_year)
+      fd.append("tcc_area",this.work.tcc_area)
+      fd.append("tcc_status", this.work.tcc_status)
+      fd.append("tcc_specialization", this.work.tcc_specialization)
+      fd.append("tcc_comments", this.work.tcc_comments)
+      fd.append("file", this.work.tcc)
+      fd.append("cover", this.work.tccCover)
+
+      axios.post('http://localhost:5000/tcc', fd)
     },
     getTeacher() {
-
+      axios.get('http://localhost:5000/teacher')
+        .then(res => {
+          this.teachers = res.data
+        })
+    },
+    getTcc(event) {
+      this.work.tcc = event.target.files[0]
+    },
+    getCover(event) {
+      this.work.tccCover = event.target.files[0]
     }
   },
   mounted () {
