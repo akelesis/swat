@@ -41,7 +41,7 @@
         id=""
         cols="30"
         rows="10"
-        v-model="comments"
+        v-model="summary"
       ></textarea>
       <div class="dashboard-teacher-button-container">
         <button class="send" @click="sendWork">Enviar</button>
@@ -80,7 +80,7 @@ export default {
       teachers: [],
       area: '',
       specialization: '',
-      comments: ''
+      summary: ''
     }
   },
   methods: {
@@ -96,7 +96,7 @@ export default {
       this.work.tcc_area = this.area
       this.work.tcc_status = "pendente"
       this.work.tcc_specialization = this.specialization
-      this.work.tcc_comments = this.comments
+      this.work.tcc_summary = this.summary
 
       const fd = new FormData()
         
@@ -107,7 +107,7 @@ export default {
       fd.append("tcc_area",this.work.tcc_area)
       fd.append("tcc_status", this.work.tcc_status)
       fd.append("tcc_specialization", this.work.tcc_specialization)
-      fd.append("tcc_comments", this.work.tcc_comments)
+      fd.append("tcc_summary", this.work.tcc_summary)
       fd.append("file", this.work.tcc)
       fd.append("cover", this.work.tccCover)
 

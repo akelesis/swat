@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-coordination">
-		<ReproveModal class="reproveModal" v-model="reproveModalOpen"></ReproveModal>
+		<ReproveModal class="reproveModal" v-model="reproveModalOpen" :curTCC="curTCC" :getResultCards="getResultCards"></ReproveModal>
 		<section class="dashboard-coordination-first-section">
 			<h2>Trabalhos para análise:</h2>
 			<div class="first-section-results">
@@ -22,11 +22,11 @@
 				<div class="middle-img-container">
 					<img src="https://via.placeholder.com/70x75/DDDDDD/000000/?text=CAPA" alt="">
 				</div>
-				<button><i class="material-icons">download</i>Download</button>
+				<button @click="getTCCFile(curTCC.tcc_url)"><i class="material-icons">download</i>Download</button>
 			</div>
 			<textarea v-model="curTCC.tcc_summary" class="textarea" disabled placeholder="Resumo do TCC"/>
 			<div class="dashboard-coordination-button-container">
-				<button class="approve">Aprovar</button>
+				<button @click="approveTCC" class="approve">Aprovar</button>
 				<button @click="openReproveModal" class="reprove">Reprovar</button>
 			</div>
 		</section>
@@ -37,7 +37,7 @@
 import ResultCard from '../components/ResultCard';
 import ReproveModal from '../components/ReproveModal';
 import axios from "axios";
-import baseURL from "../global";
+import { baseURL } from "../global";
 
 export default {
 	name: "DashboardCoordination",
@@ -59,15 +59,41 @@ export default {
 		},
 		async getTCC(result){
 			this.curTCC = result;
-			const response = await axios.get(baseURL + `/teacher/${this.curTCC.teacher_id}`).then(res => res.data);
-			this.curTeacher = response;
+			try{
+				const response = await axios.get(`${baseURL}/teacher/${this.curTCC.teacher_id}`).then(res => res.data);
+				this.curTeacher = response;
+			} catch(err){
+				alert(`Ocorreu um erro ao pegar os dados do TCC ${result.tcc_title}`);
+				console.log(err);
+			}
 		},
 		async getResultCards(){
-			const response = await axios.get(baseURL + '/tcc').then(res => res.data);
-			this.results = response.filter(res => res.tcc_status == "pendente");
-			
-			console.log(response);
-		}
+			try{
+				const response = await axios.get(baseURL + '/tcc').then(res => res.data);
+				this.results = response.filter(res => res.tcc_status == "pendente");
+				this.curTCC = {};
+				this.curTeacher = {};
+			} catch(err){
+				alert("Ocorreu um erro ao solicitar os cards. Por favor, recarregue a página.");
+				console.log(err);
+			}
+		},
+		getTCCFile(tcc_url){
+			window.open(tcc_url);
+		},
+		async approveTCC(){
+			this.curTCC.tcc_status = "aprovado";
+			try {
+				const response = await axios.put(`${baseURL}/tcc/${this.curTCC.tcc_id}`, this.curTCC);
+				if (response.status == 200){
+					alert("O TCC foi aprovado com sucesso!");
+				}
+			} catch(err){
+				alert("Erro ao aprovar o TCC. Por favor, tente novamente.");
+				console.log(err);
+			}
+			this.getResultCards();
+		},
 	},
 	mounted(){
 		this.getResultCards();
@@ -151,6 +177,11 @@ export default {
 
 .dashboard-coordination-input input{
 	width: 25vw;
+}
+
+.dashboard-coordination-second-section input::placeholder,
+.dashboard-coordination-second-section textarea::placeholder{
+	color: #bbb;
 }
 
 .dashboard-coordination-input{

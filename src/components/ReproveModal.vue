@@ -2,9 +2,9 @@
     <div class="modal" v-show="value">
         <div class="content">
             <h2>Motivação para contestação de trabalho</h2>
-            <textarea name="" id="" class="textarea" cols="30" rows="10"></textarea>
+            <textarea required v-model="comments" name="" id="" class="textarea" cols="30" rows="10"></textarea>
             <div class="button-container">
-                <button class="btn-enviar">Enviar</button>
+                <button @click="reproveTCC" class="btn-enviar">Enviar</button>
                 <button @click="close" class="btn-cancelar">Cancelar</button>
             </div>
         </div>
@@ -12,14 +12,33 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { baseURL } from '../global';
 export default {
     name: "ReproveModal",
-    props: {
-        value: {
-            required: true
+    data(){
+        return {
+            comments: '',
         }
     },
+    props: ['curTCC', 'getResultCards', 'value'],
     methods: {
+        async reproveTCC(){
+            try {
+                this.curTCC.tcc_comments = this.comments;
+                this.curTCC.tcc_status = "reprovado";
+                const response = await axios.put(`${baseURL}/tcc/${this.curTCC.tcc_id}`, this.curTCC);
+                if (response.status == 200){
+                    alert("TCC reprovado com sucesso!");
+                    this.comments = '';
+                    this.getResultCards();
+                    this.close();
+                }
+            } catch(err){
+                alert("Erro ao reprovar o TCC. Por favor, tente novamente.");
+                console.log(err);
+            }
+        },
         close(){
             this.$emit("input", !this.value);
         }
