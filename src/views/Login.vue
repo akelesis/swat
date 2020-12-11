@@ -8,25 +8,51 @@
             <div>
                 <h1 id="login-name">Login</h1>
                 <div class="login-input-container">
-                    <input type="text">
+                    <input type="teacher_email" v-model="user.teacher_email">
                     <div class="password-container">
-                        <input type="password">
-                        <p id="forgotten-password">esqueci a senha</p>
+                        <input type="password" v-model="user.teacher_password">
+                        <p id="forgotten-password" >esqueci a senha</p>
                     </div>
                 </div>
-                <button @click="redirectPage">Entrar</button>
+                <button @click="login">Entrar</button>
             </div>
       </section>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { userKey } from '@/global'
+
 export default {
     name: "Login",
-    methods: {
-        redirectPage() {
-            this.$router.push("/dashboardteacher")
+    data() {
+        return {
+            user: {
+                teacher_email: '',
+                teacher_password: ''
+            }
         }
+    },
+    methods: {
+        login() {
+            axios.post('http://localhost:5000/auth', this.user)
+                .then(res => {
+                    this.$store.commit('setUser', res.data)
+                    localStorage.setItem(userKey, JSON.stringify(res.data))
+                    this.$store.state.logged = true
+                    this.$router.push("/dashboardteacher")
+                })
+                .catch(err => {
+                     alert(err);
+                });
+        },
+        headerState() {
+            this.$store.state.logged = false
+        }
+    },
+    mounted() {
+        this.headerState()
     }
 
 }
