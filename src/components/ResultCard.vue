@@ -21,7 +21,7 @@ export default {
     props: ['status', 'tcc'],
     methods: {
         redirectPage() {
-            if (this.status == "aprovado"){
+            if (this.status == "aprovado" || !this.status){
                 this.$store.commit("setSelected", this.tcc)
                 this.$router.push("/article-details")
             }

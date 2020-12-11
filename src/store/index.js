@@ -16,12 +16,14 @@ export default new Vuex.Store({
       state.user = user
       if(user){
           axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`
+          state.logged = true
           if(user.adm){
               this.state.admin = true
           }
       }
       else{
           delete axios.defaults.headers.common['Authorization']
+          state.logged = false
       }
     },
     setSearchResult(state, result) {

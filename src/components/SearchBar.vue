@@ -28,7 +28,7 @@
 
 <script>
 import axios from "axios"
-import baseURL from "../global"
+import {baseURL} from "../global"
 
 export default {
     data() {
@@ -46,6 +46,7 @@ export default {
     },
     methods: {
         async redirectToResult() {
+            console.log(baseURL + this.options[this.checked] + this.search)
             try {
                 this.result = await axios.get(baseURL + this.options[this.checked] + this.search)
                     .then(res => res.data)
