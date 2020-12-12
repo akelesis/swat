@@ -2,10 +2,14 @@
   <div class="Header" v-if="logged">
     <div>
       <i class="material-icons expand" @click="toggleMenu">expand_more</i>
-      <p>Bom dia, Helder!</p>
+      <p>Bom dia, {{ name }}!</p>
       <i class="material-icons">account_circle</i>
     </div>
     <div class="dropdown-menu" v-if="menuActive">
+      <div class="dropdown-option" @click="redirectRegister">
+        Cadastro
+        <span class="material-icons"> perm_identity </span>
+      </div>
       <div class="dropdown-option" @click="logOut">
         Sair
         <span class="material-icons"> exit_to_app </span>
@@ -32,12 +36,26 @@ export default {
       localStorage.removeItem("__user");
       this.$router.push({ name: "Home" });
     },
+    redirectRegister() {
+      this.$router.push('professor-register');
+    },
+    verifyLogin() {
+      if(localStorage.getItem("__user")) {
+        this.$store.commit('setUser', JSON.parse(localStorage.getItem("__user")))
+      }
+    }
   },
   computed: {
     logged() {
       return this.$store.state.logged;
     },
+    name() {
+      return this.$store.state.user.name
+    }
   },
+  mounted() {
+    this.verifyLogin()
+  }
 };
 </script>
 
@@ -67,8 +85,8 @@ export default {
 }
 
 .dropdown-menu {
-  width: 100px;
-  height: 50px;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 50px;
   background-color: #fff;

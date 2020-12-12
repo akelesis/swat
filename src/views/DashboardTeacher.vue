@@ -2,29 +2,49 @@
   <div class="dashboard-teacher">
     <section class="dashboard-teacher-first-section">
       <h2>Envio de trabalhos</h2>
-      <input type="text" v-model="title" placeholder="Título do trabalho" name="" id="" />
+      <input
+        type="text"
+        v-model="title"
+        placeholder="Título do trabalho"
+        name=""
+        id=""
+      />
       <div class="dashboard-teacher-input-container">
-        <input type="text" v-model="autor" placeholder="Autor(a)" name="" id="" />
+        <input
+          type="text"
+          v-model="autor"
+          placeholder="Autor(a)"
+          name=""
+          id=""
+        />
         <select name="" id="" v-model="teacher">
-          <option value="" selected="true" disabled="disabled">Escolha o professor</option>
-          <option 
-            :value="value.teacher_id" 
-            :id="value.teacher_id" 
-            v-for="value in teachers" :key="value.teacher_id">
+          <option value="" selected="true" disabled="disabled">
+            Escolha o professor
+          </option>
+          <option
+            :value="value.teacher_id"
+            :id="value.teacher_id"
+            v-for="value in teachers"
+            :key="value.teacher_id"
+          >
             {{ value.teacher_name }}
           </option>
         </select>
       </div>
       <div class="dashboard-teacher-input-container">
         <select name="" id="" v-model="area">
-          <option value="" selected="true" disabled="disabled">Área relacionada</option>
+          <option value="" selected="true" disabled="disabled">
+            Área relacionada
+          </option>
           <option>Humanas</option>
           <option>Exatas</option>
           <option>Tecnologia</option>
           <option>Biológicas</option>
         </select>
         <select name="" id="" v-model="specialization">
-          <option value="" selected="true" disabled="disabled">Selecione o grau de especialização</option>
+          <option value="" selected="true" disabled="disabled">
+            Selecione o grau de especialização
+          </option>
           <option>Licenciatura</option>
           <option>Bacharelado</option>
           <option>Mestrado</option>
@@ -32,8 +52,18 @@
         </select>
       </div>
       <div class="dashboard-teacher-input-container">
-        <input type="file" id="image-file-input" @change="getCover" accept="image/jpg, image/png" />
-        <input type="file" id="archive-file-input" @change="getTcc" accept="application/pdf" />
+        <input
+          type="file"
+          id="image-file-input"
+          @change="getCover"
+          accept="image/jpg, image/png"
+        />
+        <input
+          type="file"
+          id="archive-file-input"
+          @change="getTcc"
+          accept="application/pdf"
+        />
       </div>
       <textarea
         name=""
@@ -51,10 +81,8 @@
     <section class="dashboard-teacher-second-section">
       <div class="dashboard-teacher-content-container">
         <h2>Últimos trabalhos enviados</h2>
-        <div class="cards-container">
-          <ResultCard status="aceito" />
-          <ResultCard status="recusado" />
-          <ResultCard status="pendente" />
+        <div class="cards-container" v-for="tcc in tccs" :key="tcc.tcc_id">
+          <ResultCard :status="tcc.tcc_status" :tcc="tcc"/>
         </div>
       </div>
       <div class="see-all"><p>Ver todos...</p></div>
@@ -64,7 +92,8 @@
 
 <script>
 import ResultCard from "../components/ResultCard.vue";
-import axios from 'axios'
+import axios from "axios";
+import { baseURL } from "../global";
 
 export default {
   name: "DashboardTeacher",
@@ -74,61 +103,76 @@ export default {
   data() {
     return {
       work: {},
-      title: '',
-      autor: '',
-      teacher: '',
+      title: "",
+      autor: "",
+      teacher: "",
       teachers: [],
-      area: '',
-      specialization: '',
-      summary: ''
-    }
+      area: "",
+      specialization: "",
+      summary: "",
+      tccs: []
+    };
   },
   methods: {
     sendWork() {
-      let ano = new Date()
+      let ano = new Date();
 
-      ano = ano.getFullYear()
+      ano = ano.getFullYear();
 
-      this.work.tcc_title = this.title
-      this.work.tcc_author = this.autor
-      this.work.teacher_id = this.teacher
-      this.work.tcc_year = ano
-      this.work.tcc_area = this.area
-      this.work.tcc_status = "pendente"
-      this.work.tcc_specialization = this.specialization
-      this.work.tcc_summary = this.summary
+      this.work.tcc_title = this.title;
+      this.work.tcc_author = this.autor;
+      this.work.teacher_id = this.teacher;
+      this.work.tcc_year = ano;
+      this.work.tcc_area = this.area;
+      this.work.tcc_status = "pendente";
+      this.work.tcc_specialization = this.specialization;
+      this.work.tcc_summary = this.summary;
 
-      const fd = new FormData()
-        
+      const fd = new FormData();
+
       fd.append("tcc_title", this.work.tcc_title);
-      fd.append("tcc_author", this.work.tcc_author)
-      fd.append("teacher_id", this.work.teacher_id)
-      fd.append("tcc_year", this.work.tcc_year)
-      fd.append("tcc_area",this.work.tcc_area)
-      fd.append("tcc_status", this.work.tcc_status)
-      fd.append("tcc_specialization", this.work.tcc_specialization)
-      fd.append("tcc_summary", this.work.tcc_summary)
-      fd.append("file", this.work.tcc)
-      fd.append("cover", this.work.tccCover)
+      fd.append("tcc_author", this.work.tcc_author);
+      fd.append("teacher_id", this.work.teacher_id);
+      fd.append("tcc_year", this.work.tcc_year);
+      fd.append("tcc_area", this.work.tcc_area);
+      fd.append("tcc_status", this.work.tcc_status);
+      fd.append("tcc_specialization", this.work.tcc_specialization);
+      fd.append("tcc_summary", this.work.tcc_summary);
+      fd.append("file", this.work.tcc);
+      fd.append("cover", this.work.tccCover);
 
-      axios.post('http://localhost:5000/tcc', fd)
+      axios.post(`${baseURL}/tcc`, fd);
+      this.getTccByTeacher()
     },
     getTeacher() {
-      axios.get('http://localhost:5000/teacher')
-        .then(res => {
-          this.teachers = res.data
-        })
+      axios.get(`${baseURL}/teacher`).then((res) => {
+        this.teachers = res.data;
+      });
+    },
+    async getTccByTeacher() {
+      try {
+        const tccs = await axios
+          .get(`${baseURL}/searchTeacher/${JSON.parse(localStorage.getItem('__user')).id}`)
+          .then((res) => res.data);
+
+        if (tccs) {
+          this.tccs = tccs
+        }
+      } catch(err) {
+        console.log(err)
+      }
     },
     getTcc(event) {
-      this.work.tcc = event.target.files[0]
+      this.work.tcc = event.target.files[0];
     },
     getCover(event) {
-      this.work.tccCover = event.target.files[0]
-    }
+      this.work.tccCover = event.target.files[0];
+    },
   },
-  mounted () {
-    this.getTeacher()
-  }
+  mounted() {
+    this.getTeacher();
+    this.getTccByTeacher();
+  },
 };
 </script>
 

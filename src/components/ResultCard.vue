@@ -1,17 +1,15 @@
 <template>
   <section @click="redirectPage" class="result-card">
       <div class="img-container">
-          <img v-if="!tcc.tcc_cover_url" src="https://via.placeholder.com/135x85/FFFFFF/C1C1C1/?text=NO_IMAGE" alt="">
-          <img v-if="tcc.tcc_cover_url" :src="tcc.tcc_cover_url" alt="">
+        <img v-if="!tcc.tcc_cover_url" src="https://via.placeholder.com/135x85/FFFFFF/C1C1C1/?text=NO_IMAGE" alt="">
+        <img v-if="tcc.tcc_cover_url" :src="tcc.tcc_cover_url" alt="">
       </div>
       <div class="description-container">
-          <p>Titulo: {{tcc.tcc_title}}</p>
-          <p>Autor: {{tcc.tcc_author}}</p>
-          <p>Ano: {{tcc.tcc_year}}</p>
-          <div class="card-row">
-            <p>Area: {{tcc.tcc_area}}</p>
-            <p v-if="status">Status: <span :class="status">{{status}}</span></p>
-          </div>
+        <p>Titulo: {{tcc.tcc_title}}</p>
+        <p>Autor: {{tcc.tcc_author}}</p>
+        <p>Ano: {{tcc.tcc_year}}</p>
+        <p>Area: {{tcc.tcc_area}}</p>
+        <p v-if="status">Status: <span :class="status">{{status}}</span></p>
       </div>
   </section>
 </template>
@@ -58,7 +56,15 @@ export default {
     justify-content: space-between;
 }
 
-.aceito {
+.pendente {
+    color: #B2AE4E;
+}
+
+.aprovado {
     color: #72C183;
+}
+
+.reprovado {
+    color: #C65E3E;
 }
 </style>

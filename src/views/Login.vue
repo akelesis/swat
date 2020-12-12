@@ -22,7 +22,7 @@
 
 <script>
 import axios from 'axios'
-import { userKey } from '@/global'
+import { userKey, baseURL } from '@/global'
 
 export default {
     name: "Login",
@@ -36,19 +36,19 @@ export default {
     },
     methods: {
         login() {
-            axios.post('http://localhost:5000/auth', this.user)
+            axios.post(`${baseURL}/auth`, this.user)
                 .then(res => {
                     this.$store.commit('setUser', res.data)
                     localStorage.setItem(userKey, JSON.stringify(res.data))
-                    this.$store.state.logged = true
-                    this.$router.push("/dashboardteacher")
+                    if(res.data.admin == 1) {
+                        this.$router.push("/dashboardcoordination")
+                    }else {
+                        this.$router.push("/dashboardteacher")
+                    }
                 })
                 .catch(err => {
                      alert(err);
                 });
-        },
-        headerState() {
-            this.$store.state.logged = false
         }
     },
     mounted() {

@@ -26,6 +26,16 @@ const routes = [
   {
     path: '/dashboardteacher',
     name: 'DashboardTeacher',
+    beforeEnter(to, from, next) {
+      // check vuex store //
+      if (localStorage.getItem('__user')) {
+        next()
+      } else {
+        next({
+          name: "Login" // back to safety route //
+        });
+      }
+    },
     component: DashboardTeacher
   },
   {
@@ -36,11 +46,31 @@ const routes = [
   {
     path: '/dashboardcoordination',
     name: 'DashboardCoordination',
+    beforeEnter(to, from, next) {
+      // check vuex store //
+      if (localStorage.getItem('__user')) {
+        next()
+      } else {
+        next({
+          name: "Login" // back to safety route //
+        });
+      }
+    },
     component: DashboardCoordination
   },
   {
     path: '/professor-register',
     name: 'ProfessorRegister',
+    beforeEnter(to, from, next) {
+      // check vuex store //
+      if (localStorage.getItem('__user')) {
+        next()
+      } else {
+        next({
+          name: "Login" // back to safety route //
+        });
+      }
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/ProfessorRegister')
   }
 ]

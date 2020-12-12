@@ -28,15 +28,19 @@
         </div>
         <div class="line-container">
           <select v-model="professor.department" class="half-input">
-            <option value="">Departamento</option>
+            <option value="" disabled>Departamento</option>
             <option value="Exatas e tecnologicas">Exatas e tecnologicas</option>
           </select>
           <select v-model="professor.college" class="half-input">
-            <option value="">Colegiado</option>
+            <option value="" disabled>Colegiado</option>
             <option value="Ciência da Computação">Ciência da Computação</option>
           </select>
         </div>
         <div class="line-container">
+          <select name="" id="" v-model="professor.adm" class="half-input">
+            <option value="1">Coordenador</option>
+            <option value="0">Professor</option>
+          </select>
           <input
             type="file"
             class="half-input"
@@ -56,6 +60,7 @@
 
 <script>
 import axios from "axios"
+import { baseURL } from '@/global'
 
 export default {
   components: {
@@ -85,8 +90,9 @@ export default {
         fd.append("teacher_department", this.professor.department)
         fd.append("teacher_collegiate", this.professor.college)
         fd.append("teacher_confirm_password", this.professor.password)
+        fd.append("teacher_admin", this.professor.adm)
 
-        axios.post("http://localhost:5000/teacher", fd)
+        axios.post(`${baseURL}/teacher`, fd)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
     }

@@ -9,7 +9,7 @@ export default new Vuex.Store({
     user: {},
     searchResult: [],
     selected: {},
-    logged: false,
+    logged: localStorage.getItem('__user') ? true : false
   },
   mutations: {
     setUser(state, user){
